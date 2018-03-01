@@ -1,46 +1,64 @@
 package com.tpadsz.mysocket.chapter02.auth;
 
+import sun.misc.BASE64Encoder;
+
 import java.net.*;
 import java.io.*;
 
 public class MailSenderWithAuth {
-    private String smtpServer = "smtp.citiz.net";  //SMTP邮件服务器的主机名
-    private int port = 25;
 
     public static void main(String[] args) {
-        Message msg = new Message("java_mail@citiz.net",   //发送者的邮件地址
-                "java_mail@citiz.net",  //接收者的邮件地址
-                "hello",  //邮件标题
-                "hi,I miss you very much."); //邮件正文
-        new MailSenderWithAuth().sendMail(msg);
+        new MailSenderWithAuth().sendMail();
     }
 
-    public void sendMail(Message msg) {
+    public void sendMail() {
+
+        String sender = "18170756879@163.com";
+        String receiver = "after_hj@163.com";
+        String password = "auth001";
+        String user = new BASE64Encoder().encode(sender.substring(0, sender.indexOf("@")).getBytes());
+        String pass = new BASE64Encoder().encode(password.getBytes());
+
         Socket socket = null;
         try {
-            socket = new Socket(smtpServer, port);  //连接到邮件服务器
-            BufferedReader br = getReader(socket);
-            PrintWriter pw = getWriter(socket);
-            String localhost = InetAddress.getLocalHost().getHostName();   //客户主机的名字
+            socket = new Socket("smtp.163.com", 25);
+            BufferedReader reader = getReader(socket);
+            PrintWriter writer = getWriter(socket);
+            sendAndReceive("",reader);
+            //HELO
+            writer.println("HELO huan");
+            sendAndReceive("HELO huan",reader);
+            //AUTH LOGIN
+            writer.println("auth login");
+            sendAndReceive("auth login",reader);
+            writer.println(user);
+            sendAndReceive(user,reader);
+            writer.println(pass);
+            sendAndReceive(pass,reader);
+            //Set mail from   and   rcpt to
+            writer.println("mail from:<" + sender + ">");
+            sendAndReceive("mail from:<" + sender + ">",reader);
+            writer.println("rcpt to:<" + receiver + ">");
+            sendAndReceive("rcpt to:<" + receiver + ">",reader);
 
-            String username = "java_mail";
-            String password = "123456";
-            //对用户名和口令进行base64编码
-            username = new sun.misc.BASE64Encoder().encode(username.getBytes());
-            password = new sun.misc.BASE64Encoder().encode(password.getBytes());
-            sendAndReceive(null, br, pw); //仅仅是为了接收服务器的响应数据
-            sendAndReceive("EHLO " + localhost, br, pw);
-            sendAndReceive("AUTH LOGIN", br, pw);  //认证命令
-            sendAndReceive(username, br, pw);  //用户名
-            sendAndReceive(password, br, pw);   //口令
-            sendAndReceive("MAIL FROM: " + msg.from + "", br, pw);
+            //Set data
+            writer.println("data");
+//            sendAndReceive(reader);
+            writer.println("subject:来自SMPT问候socket...");
+            writer.println("from:" + sender);
+            writer.println("to:" + receiver);
+            writer.println("Content-Type: text/plain;charset=\"utf-8\"");
+            writer.println();
+            writer.println("女神，晚上可以共进晚餐吗？");
+            writer.println(".");
+            writer.println("");
+            sendAndReceive("data",reader);
 
-            sendAndReceive("RCPT TO: " + msg.to + "", br, pw);
-            sendAndReceive("DATA", br, pw);  //接下来开始发送邮件内容
-            pw.println(msg.data);  //发送邮件内容
-            System.out.println("Client>" + msg.data);
-            sendAndReceive(".", br, pw);  //邮件发送完毕
-            sendAndReceive("QUIT", br, pw);  //结束通信
+            //Say GoodBye
+            writer.println("rset");
+            sendAndReceive("rset",reader);
+            writer.println("quit");
+            sendAndReceive("quit",reader);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -55,14 +73,9 @@ public class MailSenderWithAuth {
     /**
      * 发送一行字符串，并接收一行服务器的响应数据
      */
-    private void sendAndReceive(String str, BufferedReader br, PrintWriter pw) throws IOException {
-        if (str != null) {
-            System.out.println("Client>" + str);
-            pw.println(str);  //发送完str字符串后，还会发送“\r\n”。
-        }
-        String response;
-        if ((response = br.readLine()) != null)
-            System.out.println("Server>" + response);
+    private void sendAndReceive(String str, BufferedReader br) throws IOException {
+        System.out.println("Client>" + str);
+        System.out.println("Server>" + br.readLine());
     }
 
     private PrintWriter getWriter(Socket socket) throws IOException {
@@ -73,21 +86,5 @@ public class MailSenderWithAuth {
     private BufferedReader getReader(Socket socket) throws IOException {
         InputStream socketIn = socket.getInputStream();
         return new BufferedReader(new InputStreamReader(socketIn));
-    }
-}
-
-class Message {  //表示邮件
-    String from;  //发送者的邮件地址
-    String to;  //接收者的邮件地址
-    String subject;  //邮件标题
-    String content;  //邮件正文
-    String data;  //邮件内容，包括邮件标题和正文
-
-    public Message(String from, String to, String subject, String content) {
-        this.from = from;
-        this.to = to;
-        this.subject = subject;
-        this.content = content;
-        data = "Subject:" + subject + "\r\n" + content;
     }
 }
