@@ -32,12 +32,10 @@ public class EchoServer {
             Socket socket=null;
             try {
                 socket = serverSocket.accept();  //等待客户连接
-                System.out.println("New connection accepted "
-                        +socket.getInetAddress() + ":" +socket.getPort());
+                System.out.println("New connection accepted " +socket.getInetAddress() + ":" +socket.getPort());
                 BufferedReader br =getReader(socket);
                 PrintWriter pw = getWriter(socket);
-
-                String msg = null;
+                String msg;
                 while ((msg = br.readLine()) != null) {
                     System.out.println(msg);
                     pw.println(echo(msg));

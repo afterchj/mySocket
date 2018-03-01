@@ -4,14 +4,14 @@ import java.net.*;
 import java.io.*;
 
 public class MailSenderWithAuth {
-    private String smtpServer = "smtp.citiz.net";  //SMTP邮件服务器的主机名
+    private String smtpServer = "smtp.163.com";  //SMTP邮件服务器的主机名
     private int port = 25;
 
     public static void main(String[] args) {
-        Message msg = new Message("java_mail@citiz.net",   //发送者的邮件地址
-                "java_mail@citiz.net",  //接收者的邮件地址
-                "hello",  //邮件标题
-                "hi,I miss you very much."); //邮件正文
+        Message msg = new Message("18170756879@163.com",   //发送者的邮件地址
+                "after_hj@163.com",  //接收者的邮件地址
+                "来自SMTP的问候……",  //邮件标题
+                "Hi,I miss you very much."); //邮件正文
         new MailSenderWithAuth().sendMail(msg);
     }
 
@@ -23,15 +23,15 @@ public class MailSenderWithAuth {
             PrintWriter pw = getWriter(socket);
             String localhost = InetAddress.getLocalHost().getHostName();   //客户主机的名字
 
-            String username = "java_mail";
-            String password = "123456";
+//            String username = "hongjian.chen";
+            String password = "auth001";
             //对用户名和口令进行base64编码
-            username = new sun.misc.BASE64Encoder().encode(username.getBytes());
+//            username = new sun.misc.BASE64Encoder().encode(username.getBytes());
             password = new sun.misc.BASE64Encoder().encode(password.getBytes());
             sendAndReceive(null, br, pw); //仅仅是为了接收服务器的响应数据
             sendAndReceive("EHLO " + localhost, br, pw);
             sendAndReceive("AUTH LOGIN", br, pw);  //认证命令
-            sendAndReceive(username, br, pw);  //用户名
+//            sendAndReceive(username, br, pw);  //用户名
             sendAndReceive(password, br, pw);   //口令
             sendAndReceive("MAIL FROM: " + msg.from + "", br, pw);
 

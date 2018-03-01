@@ -33,10 +33,8 @@ public class EchoClient {
             BufferedReader localReader=new BufferedReader(new InputStreamReader(System.in));
             String msg;
             while((msg=localReader.readLine())!=null){
-
                 pw.println(msg);
                 System.out.println(br.readLine());
-
                 if(msg.equals("bye"))
                     break;
             }
