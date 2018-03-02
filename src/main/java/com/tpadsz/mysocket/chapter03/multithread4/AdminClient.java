@@ -11,13 +11,10 @@ public class AdminClient {
             //发送关闭命令
             OutputStream socketOut = socket.getOutputStream();
             socketOut.write("shutdown\r\n".getBytes());
-
             //接收服务器的反馈
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
-            String msg = null;
-            while ((msg = br.readLine()) != null)
-                System.out.println(msg);
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            String msg;
+            while ((msg = br.readLine()) != null) System.out.println(msg);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

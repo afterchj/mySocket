@@ -11,7 +11,7 @@ public class SimpleServer {
         InputStream in = s.getInputStream();
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         byte[] buff = new byte[1024];
-        int len = -1;
+        int len;
         do {
             len = in.read(buff);
             if (len != -1) buffer.write(buff, 0, len);

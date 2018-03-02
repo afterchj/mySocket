@@ -3,12 +3,9 @@ package com.tpadsz.mysocket.chapter03.multithread2;
 public class ThreadPoolTester {
     public static void main(String[] args) {
         if (args.length != 2) {
-            System.out.println(
-                    "用法: java ThreadPoolTest numTasks poolSize");
-            System.out.println(
-                    "  numTasks - integer: 任务的数目");
-            System.out.println(
-                    "  numThreads - integer: 线程池中的线程数目");
+            System.out.println("用法: java ThreadPoolTest numTasks poolSize");
+            System.out.println("  numTasks - integer: 任务的数目");
+            System.out.println("  numThreads - integer: 线程池中的线程数目");
             return;
         }
         int numTasks = Integer.parseInt(args[0]);
@@ -28,15 +25,14 @@ public class ThreadPoolTester {
      * 定义了一个简单的任务(打印ID)
      */
     private static Runnable createTask(final int taskID) {
-        return new Runnable() {
-            public void run() {
-                System.out.println("Task " + taskID + ": start");
-                try {
-                    Thread.sleep(500);  //增加执行一个任务的时间
-                } catch (InterruptedException ex) {
-                }
-                System.out.println("Task " + taskID + ": end");
+        Runnable runnable = () -> {
+            System.out.println("Task " + taskID + ": start");
+            try {
+                Thread.sleep(500);  //增加执行一个任务的时间
+            } catch (InterruptedException ex) {
             }
+            System.out.println("Task " + taskID + ": end");
         };
+        return runnable;
     }
 }

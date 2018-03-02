@@ -9,16 +9,16 @@ import java.net.Socket;
 public class SMTPMain {
     public static void main(String[] args) {
         String sender = "18170756879@163.com";
-        String receiver = "after@tpadsz.com";
+        String receiver = "after_hj@163.com";
         String password = "auth001";
         String user = new BASE64Encoder().encode(sender.substring(0, sender.indexOf("@")).getBytes());
-        String pass = new BASE64Encoder().encode(password.getBytes());
+        String pass =new BASE64Encoder().encode(password.getBytes());
         try {
             Socket socket = new Socket("smtp.163.com", 25);
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            PrintWriter writer = new PrintWriter(outputStream, true);  //我TM去 这个true太关键了!
+            PrintWriter writer = new PrintWriter(outputStream, true);  //这个true太关键了!
             System.out.println(reader.readLine());
             //HELO
             writer.println("HELO huan");

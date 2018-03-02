@@ -6,8 +6,10 @@ import java.net.*;
 public class SimpleClient {
     public static void main(String args[]) throws Exception {
         Socket s = new Socket("localhost", 8000);
-        //s.setSoLinger(true,0);  //Socket关闭后，底层Socket立即关闭
-        //s.setSoLinger(true,3600);  //Socket关闭后，底层Socket延迟3600秒再关闭
+        //Socket关闭后，底层Socket立即关闭
+//        s.setSoLinger(true,0);
+        //Socket关闭后，底层Socket延迟3600秒再关闭
+        s.setSoLinger(true,3600);
         OutputStream out = s.getOutputStream();
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < 10000; i++) sb.append(i);

@@ -83,7 +83,8 @@ public class ThreadPool extends ThreadGroup {
         public void run() {
             while (!isInterrupted()) {  //isInterrupted()方法继承自Thread类，判断线程是否被中断
                 Runnable task = null;
-                try { //得到任务
+                try {
+                    //得到任务
                     task = getTask();
                 } catch (InterruptedException ex) {
                 }

@@ -4,15 +4,15 @@ import java.net.*;
 import java.io.*;
 
 public class MailSender {
-    private String smtpServer = "smtp.mydomain.com";  //SMTP邮件服务器的主机名
+    private String smtpServer = "smtp.exmail.qq.com";  //SMTP邮件服务器的主机名
     //private String smtpServer="localhost";
-    private int port = 25;
+    private int port = 587;
 
     public static void main(String[] args) {
-        Message msg = new Message("tom@abc.com",   //发送者的邮件地址
-                "linda@def.com",  //接收者的邮件地址
-                "hello",  //邮件标题
-                "hi,I miss you very much."); //邮件正文
+        Message msg = new Message("after@tpadsz.com",   //发送者的邮件地址
+                "after_hj@163.com",  //接收者的邮件地址
+                "来自SMTP的问候……",  //邮件标题
+                "Hi,I miss you very much."); //邮件正文
         new MailSender().sendMail(msg);
     }
 
