@@ -1,18 +1,21 @@
 package com.tpadsz.mysocket.utils;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Created by hongjian.chen on 2018/3/5.
  */
 public class PortScanner {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
+        System.out.println(InetAddress.getByName("baidu.com").getHostAddress());
         String host="localhost";
-        if (args.length>0){
-            host=args[0];
-        }
-        new PortScanner().scan(host);
+//        if (args.length>0){
+//            host=args[0];
+//        }
+//        new PortScanner().scan(host);
     }
 
     private  void scan(String host) {
