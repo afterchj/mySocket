@@ -16,6 +16,7 @@ public class ProxyFactory {
                     if (result instanceof Throwable)
                         throw new RemoteException((Throwable) result);
                     else
+//                        System.out.println("result="+proxy.getClass().getSimpleName()+"\t"+method.getName());
                         return result;
                 } finally {
                     if (connector != null) connector.close();
