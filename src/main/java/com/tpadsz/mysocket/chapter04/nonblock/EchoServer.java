@@ -17,8 +17,8 @@ import java.util.Set;
 public class EchoServer {
     private Selector selector = null;
     private ServerSocketChannel serverSocketChannel = null;
-    private int port = 8000;
-    private Charset charset = Charset.forName("GBK");
+    private int port = 8001;
+    private Charset charset = Charset.forName("utf-8");
 
     public EchoServer() throws IOException {
         selector = Selector.open();
@@ -78,7 +78,7 @@ public class EchoServer {
         buffer.position(temp.limit());
         buffer.compact();
 
-        if (outputData.equals("bye\r\n")) {
+        if (outputData.equals("bye")) {
             key.cancel();
             socketChannel.close();
             System.out.println("关闭与客户的连接！");

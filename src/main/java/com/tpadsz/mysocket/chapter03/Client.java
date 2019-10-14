@@ -4,7 +4,7 @@ import java.net.*;
 
 public class Client {
     public static void main(String args[]) throws Exception {
-        final int length = 100;
+        final int length = 110;
         String host = "localhost";
         int port = 8000;
 

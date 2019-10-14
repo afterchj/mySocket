@@ -7,7 +7,7 @@ public class AdminClient {
     public static void main(String args[]) {
         Socket socket = null;
         try {
-            socket = new Socket("localhost", 8001);
+            socket = new Socket("localhost", 8000);
             //发送关闭命令
             OutputStream socketOut = socket.getOutputStream();
             socketOut.write("shutdown\r\n".getBytes());

@@ -3,18 +3,18 @@ package com.tpadsz.mysocket.chapter02;
 import java.net.*;
 import java.io.*;
 public class HTTPClient {
-  String host="www.javathinker.org";
+  String host="www.baidu.com";
   int port=80;
   Socket socket;
   
   public void createSocket()throws Exception{
-    socket=new Socket("www.javathinker.org",80);
+    socket=new Socket(host,port);
   }
   
 
   public void communicate()throws Exception{
-    StringBuffer sb=new StringBuffer("GET "+"/index.jsp"+" HTTP/1.1\r\n");
-    sb.append("Host: www.javathinker.org\r\n");
+    StringBuffer sb=new StringBuffer("GET "+"/index.html"+" HTTP/1.1\r\n");
+    sb.append("Host: www.baidu.com\r\n");
     sb.append("Accept: */*\r\n");
     sb.append("Accept-Language: zh-cn\r\n");
     sb.append("Accept-Encoding: gzip, deflate\r\n");
@@ -27,26 +27,26 @@ public class HTTPClient {
     socket.shutdownOutput();   //关闭输出流
 
     //接收响应结果
-    InputStream socketIn=socket.getInputStream();
-    ByteArrayOutputStream buffer=new ByteArrayOutputStream();
-    byte[] buff=new byte[1024];  
-    int len=-1;
-    while((len=socketIn.read(buff))!=-1){
-      buffer.write(buff,0,len);
-    }
+//    InputStream socketIn=socket.getInputStream();
+//    ByteArrayOutputStream buffer=new ByteArrayOutputStream();
+//    byte[] buff=new byte[1024];
+//    int len=-1;
+//    while((len=socketIn.read(buff))!=-1){
+//      buffer.write(buff,0,len);
+//    }
 
     //把字节数组转换为字符串
-    System.out.println(new String(buffer.toByteArray()));
+//    System.out.println(new String(buffer.toByteArray()));
 
 
-/*
+
     InputStream socketIn=socket.getInputStream();
     BufferedReader br=new BufferedReader(new InputStreamReader(socketIn));
     String data;
     while((data=br.readLine())!=null){
       System.out.println(data);
     }
-*/        
+
     socket.close();
   }
   
